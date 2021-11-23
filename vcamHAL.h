@@ -1,9 +1,13 @@
 #ifndef VCAMHAL_H_INCLUDED
 #define VCAMHAL_H_INCLUDED
 
+#include <vector>
+
 #include <hardware/hardware.h>
 #include <hardware/camera3.h>
+
 #include "common.h"
+#include "camera.h"
 class vcam_hal {
     public:
         vcam_hal();
@@ -16,7 +20,7 @@ class vcam_hal {
 
     private:
         const camera_module_callbacks_t* mCallbacks;
-        int NumOfCameras;
+        std::vector<std::unique_ptr<default_camera_hal::Camera>> mCameras;
 };
 
 extern camera_module_t HAL_MODULE_INFO_SYM;
