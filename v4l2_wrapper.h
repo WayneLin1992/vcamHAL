@@ -18,6 +18,11 @@ public:
 private:
     V4L2Wrapper(const std::string device_path);
     int connection_count_;
+    template<typename T>
+    int IoctlLock(unsigned long request, T data);
+    
+    // Lock protect device
+    std::mutex device_lock_;
 };
 
 #endif  // V4L2_WRAPPER_H_INCLUDED
