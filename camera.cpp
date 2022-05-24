@@ -2,6 +2,16 @@
 
 #include <hardware/camera3.h>
 
+extern "C" {
+// passed to the framework to close an opened device.
+static int close_device(hw_device_t* dev)
+{
+    camera3_device_t* cam_dev = reinterpret_cast<camera3_device_t*>(dev);
+    Camera* cam = static_cast<Camera*>(cam_dev->priv);
+    return cam->close();
+}
+} // extern "C"
+
 namespace default_camera_hal
 {
 Camera::Camera(int id) : mId(id), mbusy(false), mCallbackOps(NULL)
@@ -9,6 +19,7 @@ Camera::Camera(int id) : mId(id), mbusy(false), mCallbackOps(NULL)
     memset(&mDevice, 0, sizeof(mDevice));
     mDevice.common.tag = HARDWARE_DEVICE_TAG;
     mDevice.common.version = CAMERA_DEVICE_API_VERSION_3_4;
+    mDevice.common.close  = close_device;
     mDevice.ops = const_cast<camera3_device_ops_t *>(&sOps);
     mDevice.priv = this;
 }
