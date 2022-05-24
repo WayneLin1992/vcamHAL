@@ -1,1 +1,1 @@
-# vcamHAL: Virtual camera hardware abstraction layer in Android
+# vcamHAL: Virtual camera hardware abstraction layer for Android
